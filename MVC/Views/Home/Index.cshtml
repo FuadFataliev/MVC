@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MVC.Models.Employee>
+@{
+    ViewData["Title"] = "Company's stuff";
+}
+
+<h2>View Company's stuff for any date</h2>
+<br />
+
+<form method="get">
+    <div class="form-group row">
+        <label for="date" class="col-md-1 col-form-label">Date</label>
+
+        <div class="col-md-2">
+            <input type="date" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-dd")" name="date" id="date" />
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-default" id="bShow" value="Show Stuff">
+        </div>
+    </div>
+</form>
+    <table class="table-condensed table-striped table-hover">
+        <tr>
+            <td>Name</td>
+            <td>Position</td>
+            <td>Hire date</td>
+            <td>Base Salary</td>
+            <td>Salary</td>
+        </tr>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@Html.Raw(@employee.IdentName)</td>
+                <td>@employee.Type.Name</td>
+                <td>@employee.HireDate.ToString("dd/MM/yyyy")</td>
+                <td>@employee.BaseSalary.ToString("f")</td>
+                <td>@employee.GetSalaryForDate(ViewBag.Date).ToString("f")</td>
+            </tr>
+        }
+    </table>
