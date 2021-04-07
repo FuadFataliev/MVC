@@ -22,13 +22,13 @@ namespace MVC
 
             try
             {
-                company.FillStuff();
+                company.FillStaff();
             }
             catch (Exception ex)
             {
                 var logger = (ILogger<Program>)host.Services.GetService(typeof(ILogger<Program>));
 
-                logger.LogError(ex, "An error occurred while filling company's stuff!");
+                logger.LogError(ex, "An error occurred while filling company's staff!");
             }
 
             host.Run();

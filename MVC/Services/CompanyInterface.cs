@@ -7,7 +7,7 @@ namespace MVC.Services
 {
     public interface ICompany
     {
-        void FillStuff();
-        IEnumerable<Models.Employee> Stuff { get; }
+        void FillStaff();
+        IEnumerable<Models.Employee> Staff { get; }
     }
 }

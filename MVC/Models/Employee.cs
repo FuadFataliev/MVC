@@ -7,14 +7,16 @@ namespace MVC.Models
 {
     public class Employee
     {
+        protected DateTime calcDate;
+        protected double calcSalary;
         public string Name { get; set; }
         public DateTime HireDate { get; set; }
         public double BaseSalary { get; set; }
 
         public EmployeeType Type { get; set; }
         public Employee Boss { get; set; }
-        public static List<Employee> Stuff { get; } = new List<Employee>();
-        public IEnumerable<Employee> Employees(DateTime date) => Stuff.Where(e => e.Boss == this && e.HireDate <= date); 
+        public static List<Employee> Staff { get; } = new List<Employee>();
+        public IEnumerable<Employee> Employees(DateTime date) => Staff.Where(e => e.Boss == this && e.HireDate <= date); 
         public string OrderID
         {
             get
@@ -90,10 +92,13 @@ namespace MVC.Models
             Type = type;
             Boss = boss;
 
-            Stuff.Add(this);
+            Staff.Add(this);
         }
         public virtual (double Salary, double Total) CalcSalaryForDate(DateTime date)
         {            
+            if (calcDate == date)
+                return (Salary: calcSalary, Total: 0);
+
             int years = date.Year - HireDate.Year;
 
             if (date.Month < HireDate.Month || (date.Month == HireDate.Month && date.Day < HireDate.Day))
@@ -104,7 +109,8 @@ namespace MVC.Models
 
             double total = GetEmployeesSalaries(date);
 
-            double salary = Math.Min(BaseSalary * (1 + years * Type.Rate), BaseSalary * (1 + Type.Limit));
+            //double salary = Math.Min(BaseSalary * (1 + years * Type.Rate), BaseSalary * (1 + Type.Limit));
+            double salary = BaseSalary * (1 + Math.Min(years * Type.Rate, Type.Limit)); // Arith optimisation
 
             if (total == 0)
                 total = salary;
@@ -113,6 +119,9 @@ namespace MVC.Models
                 salary += total * Type.EmployeeRate;
                 total += salary;
             }
+
+            calcDate = date;
+            calcSalary = salary;
 
             return (Salary: salary, Total: total);
         }

@@ -20,8 +20,12 @@ namespace MVC.Controllers
 
             ViewBag.Date = date;
 
-            var stuff = company.Stuff.Where(e => e.HireDate <= date).OrderBy(e => e.OrderID).ThenBy(e => e.Name);
-            return View(stuff);
+            var staff = company.Staff.Where(e => e.HireDate <= date);
+
+            ViewBag.TotalSalary = staff.Sum(e => e.GetSalaryForDate(date));
+                
+            staff = staff.OrderBy(e => e.OrderID).ThenBy(e => e.Name);
+            return View(staff);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

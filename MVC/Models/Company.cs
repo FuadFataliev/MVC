@@ -7,7 +7,7 @@ namespace MVC.Models
 {
     class Company : Services.ICompany
     {
-        public virtual void FillStuff()
+        public virtual void FillStaff()
         {
             EmployeeType Employee = new EmployeeType("Employee", 0.03, 0.3, 0, false);
             EmployeeType Manager = new EmployeeType("Manager", 0.05, 0.5, 0.005, true);
@@ -44,6 +44,6 @@ namespace MVC.Models
             var employee2321 = new Employee("Employee 2321", new DateTime(2010, 12, 1), Employee, subManager232);
             var employee2322 = new Employee("Employee 2322", new DateTime(2010, 12, 1), Employee, subManager232);
         }
-        public virtual IEnumerable<Employee> Stuff { get => Employee.Stuff; }
+        public virtual IEnumerable<Employee> Staff { get => Employee.Staff; }
     }
 }
